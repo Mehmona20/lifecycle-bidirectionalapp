@@ -1,24 +1,17 @@
 # Android Activity Lifecycle & Bidirectional Intent App
 
-Welcome to the **Android Activity Lifecycle & Bidirectional Intent App!**
+This Android application demonstrates the **Activity Lifecycle** and two-way data communication between `MainActivity` and `SecondActivity` using explicit intents and the `ActivityResultLauncher` API.
 
-This Android application demonstrates how the Activity Lifecycle works in practice, along with bidirectional data communication between two screens (`MainActivity` and `SecondActivity`) using explicit intents and the modern `ActivityResultLauncher` API.
+## Features
 
-## What Does This App Do?
+### 1. Bidirectional Data Communication
+- Users can enter a message in `MainActivity` and send it to `SecondActivity` through an explicit intent.
+- The second screen receives and displays the message.
+- Users can enter a reply and return it to the main screen using `setResult()`.
+- The second activity closes with `finish()`, and `ActivityResultLauncher` receives the reply and updates the main screen.
 
-The application consists of two simple screens that demonstrate two fundamental Android development concepts:
-
-### 1. Bidirectional Data Passing
-
-- On the main screen (`MainActivity`), users can enter a message and send it to the second screen (`SecondActivity`) using an explicit intent.
-- The second screen receives and displays the incoming message.
-- Users can then enter a reply and send it back to the main screen.
-- When the reply button is clicked, the response is returned using `setResult()`, and `finish()` closes the second activity.
-- The main screen receives the reply through `ActivityResultLauncher` and updates its user interface accordingly.
-
-### 2. Android Activity Lifecycle Tracking
-
-Both activities implement logging for the seven standard Activity Lifecycle callback methods:
+### 2. Activity Lifecycle Monitoring
+Both activities log the seven standard lifecycle callback methods:
 
 - `onCreate()`
 - `onStart()`
@@ -28,60 +21,30 @@ Both activities implement logging for the seven standard Activity Lifecycle call
 - `onDestroy()`
 - `onRestart()`
 
-All lifecycle events are displayed in Android Studio's Logcat console using the tag `LifecycleCallback`, making it easy to monitor activity state transitions during app navigation.
+Lifecycle events appear in Android Studio's Logcat using the tag `LifecycleCallback`.
 
 ## Project Structure
 
 **Package Name:** `com.example.lifecyclebidirectionalapp`
 
-**Activities:**
+**Java Files**
+- `MainActivity.java` — Sends messages to the second screen and receives replies.
+- `SecondActivity.java` — Displays incoming messages and returns replies to the main screen.
 
-- `MainActivity.java` — The main entry point of the application. It handles sending messages to the second activity and receiving replies.
-- `SecondActivity.java` — Receives messages from the main activity, displays them, and sends replies back.
+**Layout Files**
+- `activity_main.xml` — Contains a message input, send button, and response display.
+- `activity_second.xml` — Shows the received message and provides a reply input and button.
 
-**Layout Files:**
+## How to View Lifecycle Logs
 
-- `activity_main.xml` — Contains a vertically arranged layout with a message input field, a send button, and a TextView for displaying the returned response.
-- `activity_second.xml` — Contains a TextView for displaying the received message, an input field for entering a reply, and a button for returning the response.
-
-## Core Implementation Details
-
-### 1. MainActivity.java
-
-The `MainActivity` handles the following operations:
-
-- Creates an explicit intent to send data to `SecondActivity`.
-- Uses `putExtra()` to attach the user's message to the intent.
-- Registers an `ActivityResultLauncher` to receive data returned from the second activity.
-- Checks the result code (`RESULT_OK`) before processing the returned message.
-- Updates the user interface with the received response.
-- Logs Activity Lifecycle callbacks to Logcat.
-
-### 2. SecondActivity.java
-
-The `SecondActivity` performs the following operations:
-
-- Receives the message through `getIntent().getStringExtra()`.
-- Displays the received message on the screen.
-- Allows users to enter a reply.
-- Creates a return intent containing the reply message.
-- Uses `setResult(RESULT_OK, returnIntent)` to send the response back.
-- Calls `finish()` to close the second activity and return to `MainActivity`.
-- Logs its Activity Lifecycle callbacks to Logcat.
-
-## How to View Activity Lifecycle Logs
-
-Follow these steps to monitor the lifecycle events:
-
-1. Connect a physical Android device or launch an emulator through Android Studio.
+1. Connect an Android device or start an emulator in Android Studio.
 2. Run the application.
-3. Open the **Logcat** window in Android Studio.
-4. Enter `tag:LifecycleCallback` in the Logcat search field.
-5. Interact with the application by navigating between activities, pressing the Home or Back button, or rotating the device.
-6. Observe the lifecycle callback messages in real time.
+3. Open the **Logcat** window.
+4. Search for `tag:LifecycleCallback`.
+5. Navigate between screens or use the Home and Back buttons to observe lifecycle events.
 
-**Note:** Lifecycle callback sequences may vary depending on user interactions, Android system behavior, and configuration changes. For example, rotating the device may cause an activity to be recreated depending on its configuration.
+Lifecycle callback sequences may vary depending on user actions and Android system behavior. Rotating the device may also recreate an activity.
 
 ## Conclusion
 
-This project provides a practical demonstration of Android Activity Lifecycle management and bidirectional data communication using explicit intents and `ActivityResultLauncher`. It helps developers understand how activities interact, exchange information, and respond to different lifecycle events.
+This project demonstrates Android Activity Lifecycle callbacks and two-way communication between activities using explicit intents and `ActivityResultLauncher`. It provides a simple way to understand how Android activities exchange data and respond to lifecycle changes.
